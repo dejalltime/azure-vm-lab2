@@ -22,7 +22,7 @@ You’ll test access via **SSH** and the **browser**, and then clean up all reso
 | Amazon EBS (block storage)     | Azure Managed Disk              |
 | EC2 Instance Connect (SSH web) | Azure Bastion / Serial Console  |
 | EC2 Security Group             | Network Security Group (NSG)    |
-| Default VPC + Subnet           | Virtual Network (VNet) + Subnet |
+| Default VPC & Subnet           | Virtual Network (VNet) & Subnet |
 | Availability Zone              | Azure Availability Zone         |
 | AWS Region                     | Azure Region                    |
 
@@ -66,8 +66,6 @@ The setup consists of:
 - **NSG** allowing inbound SSH (22) and HTTP (80)
 - **VNet & Subnet** providing network isolation
 - **Availability Zone** within an **Azure Region**
-
-_Add your diagram as `azure-vm-lab2.png` and embed it here:_
 
 ![Azure Lab 2 Architecture](./azure-vm-lab2.png)
 
