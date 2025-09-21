@@ -109,8 +109,8 @@ A **Network Security Group (NSG)** acts like a firewall. It will allow us to rea
 2. Under **Settings**, select **Inbound security rules** → **+ Add**.
 3. Create two rules:
 
-   - Rule 1: **Service = SSH**, Source = Any, Priority = 1000, Name = `Allow-SSH`
-   - Rule 2: **Service = HTTP**, Source = Any, Priority = 1001, Name = `Allow-HTTP`
+   - Rule 1: **Service = SSH**, Source = Any, Priority = 1001, Name = `Allow-SSH`
+   - Rule 2: **Service = HTTP**, Source = Any, Priority = 1002, Name = `Allow-HTTP`
 
 </details>
 
@@ -165,7 +165,15 @@ At the end of deployment, a modal will pop up prompting you to download the SSH 
 ---
 
 <details>
-<summary>5. Test the VM</summary>
+<summary>4. Test the VM</summary>
+
+#### Before Testing: Verify Effective Security Rules
+
+1. In the VM’s **Networking** tab, click **View effective security rules**.
+2. Confirm you see **Allow TCP 22 (SSH)** and **Allow TCP 80 (HTTP)**.
+3. If the HTTP rule is missing or overridden by a higher-priority Deny, re-add it in the NSG attached to the NIC.
+
+---
 
 #### Approach 1: Browser Test
 
@@ -182,7 +190,7 @@ At the end of deployment, a modal will pop up prompting you to download the SSH 
 1. In the VM page, click **Connect** → **Bastion**.
 2. Enter:
    - Username: `azureuser`
-   - Private key: Upload your `azure_lab2_key` file.
+   - Private key: Upload your `.pem` file downloaded at VM creation.
 3. Click **Connect**.
 4. You’ll get a browser-based terminal.
 5. Run:
@@ -218,7 +226,7 @@ curl localhost:80
 ---
 
 <details>
-<summary>6. Clean Up</summary>
+<summary>5. Clean Up</summary>
 
 To avoid charges, delete all resources:
 
