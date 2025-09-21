@@ -77,12 +77,12 @@ The setup consists of:
 <summary>1. Introduction – Getting Started</summary>
 
 - Sign in to the [Azure Portal](https://portal.azure.com).
-- In the left-hand menu, click **Resource groups**, then **Create**.
+- In the left-hand menu, click **Resource groups** → **+ Create**.
 - Fill in the form:
   - **Subscription:** Select your active subscription
   - **Resource group:** `rg-vm-lab`
   - **Region:** `Canada Central` (or your nearest region with Availability Zones)
-- Click **Review & Create**, then **Create**.
+- Click **Review + Create**, then **Create**.
 
 This resource group will contain all lab resources.
 
@@ -96,17 +96,17 @@ This resource group will contain all lab resources.
 A **Network Security Group (NSG)** acts like a firewall. It will allow us to reach the VM via **SSH** and **HTTP**.
 
 1. In the Azure Portal search bar, type **Network security groups**.
-2. Click **Create**.
+2. Click **+ Create**.
 3. Fill in the form:
    - **Resource group:** `rg-vm-lab`
    - **Name:** `nsg-vm-lab`
    - **Region:** same as the resource group (e.g., `Canada Central`)
-4. Click **Review & Create**, then **Create**.
+4. Click **Review + Create**, then **Create**.
 
 #### Add inbound rules
 
 1. Open the newly created NSG (`nsg-vm-lab`).
-2. Under **Settings**, select **Inbound security rules** then **Add**.
+2. Under **Settings**, select **Inbound security rules** → **+ Add**.
 3. Create two rules:
 
    - Rule 1 (SSH):
@@ -157,7 +157,7 @@ This generates:
 <summary>4. Launch an Azure VM</summary>
 
 1. In the Azure Portal, search for **Virtual machines**.
-2. Click **Create**, then **Azure virtual machine**.
+2. Click **+ Create** → **Azure virtual machine**.
 3. Fill in the **Basics** tab:
 
    - **Resource group:** `rg-vm-lab`
@@ -188,7 +188,7 @@ systemctl enable --now nginx
 echo "Hello from Azure VM Lab 2 - $(hostname)" > /var/www/html/index.html
 ```
 
-6. Click **Review & Create**, then **Create**.
+6. Click **Review + Create**, then **Create**.
 
 The VM will provision with NGINX installed and serving a test page.
 
