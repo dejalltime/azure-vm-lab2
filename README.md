@@ -109,52 +109,15 @@ A **Network Security Group (NSG)** acts like a firewall. It will allow us to rea
 2. Under **Settings**, select **Inbound security rules** → **+ Add**.
 3. Create two rules:
 
-   - Rule 1 (SSH):
-
-     - **Source:** Any
-     - **Destination port ranges:** `22`
-     - **Protocol:** TCP
-     - **Action:** Allow
-     - **Priority:** 1000
-     - **Name:** `Allow-SSH`
-
-   - Rule 2 (HTTP):
-     - **Source:** Any
-     - **Destination port ranges:** `80`
-     - **Protocol:** TCP
-     - **Action:** Allow
-     - **Priority:** 1001
-     - **Name:** `Allow-HTTP`
+   - Rule 1: **Service = SSH**, Source = Any, Priority = 1000, Name = `Allow-SSH`
+   - Rule 2: **Service = HTTP**, Source = Any, Priority = 1001, Name = `Allow-HTTP`
 
 </details>
 
 ---
 
 <details>
-<summary>3. Create an SSH Key Pair</summary>
-
-Instead of passwords, Azure uses **public key cryptography** for SSH.
-
-- If you don’t have an SSH key already, create one locally:
-
-```bash
-ssh-keygen -t ed25519 -C "lab2" -f ~/.ssh/azure_lab2_key
-```
-
-This generates:
-
-- Public key: `~/.ssh/azure_lab2_key.pub`
-- Private key: `~/.ssh/azure_lab2_key`
-
-- You’ll use the **public key** during VM creation.
-- Keep the **private key** safe for SSH access.
-
-</details>
-
----
-
-<details>
-<summary>4. Launch an Azure VM</summary>
+<summary>3. Launch an Azure VM</summary>
 
 1. In the Azure Portal, search for **Virtual machines**.
 2. Click **+ Create** → **Azure virtual machine**.
@@ -168,29 +131,34 @@ This generates:
    - **Size:** Standard_B1s (low cost)
    - **Authentication type:** SSH public key
    - **Username:** `azureuser`
-   - **SSH public key source:** Paste your public key (`~/.ssh/azure_lab2_key.pub`)
-   - **Inbound ports:** None (we’ll rely on the NSG rules)
+   - **SSH public key source:** **Generate new key pair**
+   - **Key pair name:** `vm-lab2-key`
+   - **Download** the private key (`.pem`) when prompted — store it securely.
+   - **Inbound ports:** None (we’ll rely on the NSG rules).
 
 4. Go to the **Networking** tab:
 
    - **VNet/Subnet:** default or create new
-   - **Public IP:** Enabled
+   - **Public IP:** **Create new** (name: `pip-vm-lab2`, SKU: Basic, Assignment: Dynamic)
    - **NIC network security group:** Select existing → `nsg-vm-lab`
 
 5. Go to the **Advanced** tab:
-   - In **User data**, paste this script to install NGINX:
 
-```bash
-#!/bin/bash
-apt-get update -y
-apt-get install -y nginx
-systemctl enable --now nginx
-echo "Hello from Azure VM Lab 2 - $(hostname)" > /var/www/html/index.html
-```
+   - Under **Custom data**, paste this script to install NGINX:
 
-6. Click **Review + Create**, then **Create**.
+   ```bash
+   #!/bin/bash
+   apt-get update -y
+   apt-get install -y nginx
+   systemctl enable --now nginx
+   echo "Hello from Azure VM Lab 2 - $(hostname)" > /var/www/html/index.html
+   ```
+
+   Click Review + Create, then Create.
 
 The VM will provision with NGINX installed and serving a test page.
+
+At the end of deployment, a modal will pop up prompting you to download the SSH private key (.pem). Save it securely — you’ll need it for SSH or Bastion connections.
 
 </details>
 
